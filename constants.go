@@ -3,7 +3,7 @@ package etherunits
 import (
 	"math/big"
 
-	"github.com/stoicturtle/ethereumunits-go/internal/utils"
+	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
 // MaxUint256 is the maximum value of Solidity's uint256 type,

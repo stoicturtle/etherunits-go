@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/stoicturtle/ethereumunits-go/internal/utils"
+	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
 // ParseUnit wraps ParseUnitFromString, ParseUnitFromBigInt, and ParseUnitFromBigFloat.

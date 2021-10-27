@@ -1,3 +1,3 @@
-module github.com/stoicturtle/ethereumunits-go
+module github.com/stoicturtle/etherunits-go
 
 go 1.17

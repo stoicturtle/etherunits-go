@@ -3,6 +3,8 @@ package etherunits_test
 import (
 	"math/big"
 	"testing"
+
+	"github.com/stoicturtle/etherunits-go"
 )
 
 var oneEtherWei *big.Int

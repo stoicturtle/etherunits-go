@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/stoicturtle/ethereumunits-go/internal/utils"
+	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
 // ToWei converts any one of (*)(u)int/8/16/32/64, (*)float32/64, *big.Int, *big.Float, or string

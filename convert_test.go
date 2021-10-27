@@ -5,6 +5,8 @@ import (
 	"math"
 	"math/big"
 	"testing"
+
+	"github.com/stoicturtle/etherunits-go"
 )
 
 const someWeiValue = "5332160000000000000"
