@@ -29,6 +29,8 @@ type TestCase struct {
 }
 
 func TestToEther(t *testing.T) {
+	t.Parallel()
+
 	getWant := func(wantUnit etherunits.Unit, val float64) *big.Float {
 		return new(big.Float).Mul(wantUnit.ValueEther(), big.NewFloat(val))
 	}
@@ -70,13 +72,13 @@ func TestToEther(t *testing.T) {
 			false,
 		},
 		{
-			"from tether 1",
+			"from tether whole number",
 			TestArgs{12, etherunits.TEther},
 			getWant(etherunits.TEther, 12),
 			false,
 		},
 		{
-			"from tether 2",
+			"from tether decimal number",
 			TestArgs{13.5221, etherunits.TEther},
 			getWant(etherunits.TEther, 13.5221),
 			false,
@@ -102,6 +104,8 @@ func TestToEther(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			got, err := etherunits.ToEther(tt.args.value, tt.args.fromUnit)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ToEther() error = %v, wantErr %v", err, tt.wantErr)
@@ -115,6 +119,8 @@ func TestToEther(t *testing.T) {
 }
 
 func TestToWei(t *testing.T) {
+	t.Parallel()
+
 	getWant := func(wantUnit etherunits.Unit, val float64) *big.Int {
 		f := big.NewFloat(val)
 		n := new(big.Float).SetInt(wantUnit.ValueWei())
@@ -139,13 +145,13 @@ func TestToWei(t *testing.T) {
 			false,
 		},
 		{
-			"from gwei 1",
+			"from gwei whole number",
 			TestArgs{44, etherunits.GWei},
 			getWant(etherunits.GWei, 44),
 			false,
 		},
 		{
-			"from gwei 2",
+			"from gwei decimal number",
 			TestArgs{45.21, etherunits.GWei},
 			getWant(etherunits.GWei, 45.21),
 			false,
@@ -153,6 +159,8 @@ func TestToWei(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			got, err := etherunits.ToWei(tt.args.value, tt.args.fromUnit)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ToWei() error = %v, wantErr %v", err, tt.wantErr)
