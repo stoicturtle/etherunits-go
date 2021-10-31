@@ -5,13 +5,14 @@ import (
 	"math/big"
 	"strings"
 
+	"github.com/stoicturtle/etherunits-go/internal/unit"
 	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
 // ToWei converts any one of (*)(u)int/8/16/32/64, (*)float32/64, *big.Int, *big.Float, or string
 // from its value in the denomination of fromUnit to its denominational value in Wei.
 func ToWei(value interface{}, fromUnit Unit) (*big.Int, error) {
-	if !fromUnit.valid() {
+	if !unit.ValidUnit(fromUnit) {
 		return nil, fmt.Errorf("ToWei(): invalid unit %s", fromUnit.String())
 	}
 
@@ -36,30 +37,25 @@ func ToWei(value interface{}, fromUnit Unit) (*big.Int, error) {
 // ToEther converts any one of (*)(u)int/8/16/32/64, (*)float32/64, *big.Int, *big.Float, or string
 // from its value in the denomination of fromUnit to its denominational value in Ether.
 func ToEther(value interface{}, fromUnit Unit) (*big.Float, error) {
-	if !fromUnit.valid() {
+	if !unit.ValidUnit(fromUnit) {
 		return nil, fmt.Errorf("ToEther(): invalid unit %s", fromUnit.String())
 	}
 
 	multiplier := fromUnit.ValueEther()
 
 	var f *big.Float
-
-	tryBigInt, isBigInt := utils.BigIntishToBigInt(value)
-	tryBigFloat, isBigFloat := utils.BigFloatishToBigFloat(value)
-
-	if isBigInt {
-		f = new(big.Float).SetInt(tryBigInt).SetPrec(multiplier.Prec())
-	} else if isBigFloat {
-		f = tryBigFloat.SetPrec(multiplier.Prec())
+	if tryBigInt, isBigInt := utils.BigIntishToBigInt(value); isBigInt {
+		f = new(big.Float).SetInt(tryBigInt)
+	} else if tryBigFloat, isBigFloat := utils.BigFloatishToBigFloat(value); isBigFloat {
+		f = tryBigFloat
 	} else {
 		return nil, fmt.Errorf("ToEther(): unable to parse %v into a *big.Int or *big.Float", value)
 	}
 
+	f.SetPrec(multiplier.Prec())
 	if fromUnit == Ether {
 		return f, nil
 	}
 
-	ethVal := f.Mul(f, multiplier)
-
-	return ethVal, nil
+	return f.Mul(f, multiplier), nil
 }

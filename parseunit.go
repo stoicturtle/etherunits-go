@@ -5,6 +5,7 @@ import (
 	"math/big"
 	"strings"
 
+	"github.com/stoicturtle/etherunits-go/internal/unit"
 	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
@@ -17,11 +18,9 @@ func ParseUnit(unit interface{}) (Unit, error) {
 	if str, ok := unit.(string); ok {
 		return ParseUnitFromString(str)
 	}
-
 	if bigint, ok := utils.BigIntishToBigInt(unit); ok {
 		return ParseUnitFromBigInt(bigint)
 	}
-
 	if bigfloat, ok := utils.BigFloatishToBigFloat(unit); ok {
 		return ParseUnitFromBigFloat(bigfloat)
 	}
@@ -32,41 +31,41 @@ func ParseUnit(unit interface{}) (Unit, error) {
 // ParseUnitFromString returns the Unit corresponding to the passed unit name string.
 // This function specifically downcases both the parameter and checked Unit names,
 // so there's no need to worry about proper casing.
-func ParseUnitFromString(unit string) (Unit, error) {
+func ParseUnitFromString(u string) (Unit, error) {
 	lower := strings.ToLower
-	for _, u := range unitsSlice {
-		if lower(unit) == lower(u.String()) {
-			return u, nil
+	for _, u2 := range unit.Slice {
+		if lower(u) == lower(u2.String()) {
+			return u2, nil
 		}
 	}
 
-	return _max + 1, fmt.Errorf("ParseUnitFromString(): unknown unit name %s", unit)
+	return _max + 1, fmt.Errorf("ParseUnitFromString(): unknown unit name %s", u)
 }
 
 // ParseUnitFromBigInt returns the Unit corresponding to the passed *big.Int value.
 // If the passed *big.Int does not correspond to a known Unit value, an invalid Unit iota
 // is returned along with an error.
-func ParseUnitFromBigInt(unit *big.Int) (Unit, error) {
-	for _, u := range unitsSlice {
-		if utils.BigIntEq(unit, u.ValueWei()) {
-			return u, nil
+func ParseUnitFromBigInt(u *big.Int) (Unit, error) {
+	for _, u2 := range unit.Slice {
+		if utils.BigIntEq(u, u2.ValueWei()) {
+			return u2, nil
 		}
 	}
 
-	return _max + 1, fmt.Errorf("ParseUnitFromBigInt(): unit value %s does not correspond to any known units", unit.String())
+	return _max + 1, fmt.Errorf("ParseUnitFromBigInt(): unit value %s does not correspond to any known units", u.String())
 }
 
 // ParseUnitFromBigFloat returns the Unit corresponding to the passed *big.Float value.
 // If the passed *big.Float does not correspond to a known Unit value, an invalid Unit iota
 // is returned along with an error.
-func ParseUnitFromBigFloat(unit *big.Float) (Unit, error) {
-	for _, u := range unitsSlice {
-		weiVal := new(big.Float).SetInt(u.ValueWei())
+func ParseUnitFromBigFloat(u *big.Float) (Unit, error) {
+	for _, u2 := range unit.Slice {
+		weiVal := new(big.Float).SetInt(u2.ValueWei())
 
-		if utils.BigFloatEq(unit, weiVal) {
-			return u, nil
+		if utils.BigFloatEq(u, weiVal) {
+			return u2, nil
 		}
 	}
 
-	return _max + 1, fmt.Errorf("ParseUnitFromBigFloat(): unit value %s does not correspond to any known units", unit.String())
+	return _max + 1, fmt.Errorf("ParseUnitFromBigFloat(): unit value %s does not correspond to any known units", u.String())
 }

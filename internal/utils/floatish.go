@@ -9,8 +9,6 @@ func isFloatish(n interface{}) bool {
 	switch n.(type) {
 	case float32, float64:
 		return true
-	case *float32, *float64:
-		return true
 	default:
 		return false
 	}
@@ -22,12 +20,8 @@ func floatishToBigFloat(n interface{}) *big.Float {
 	switch val := n.(type) {
 	case float32:
 		x = float64(val)
-	case *float32:
-		x = float64(*val)
 	case float64:
 		x = val
-	case *float64:
-		x = *val
 	}
 
 	return big.NewFloat(x)

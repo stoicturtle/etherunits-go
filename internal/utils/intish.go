@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"math/big"
-	"reflect"
 	"strconv"
 )
 
@@ -11,28 +10,13 @@ func isIntish(n interface{}) bool {
 	switch n.(type) {
 	case int, int8, int16, int32, int64:
 		return true
-	case *int, *int8, *int16, *int32, *int64:
-		return true
 	default:
 		return false
 	}
 }
 
-func makeFormatStr(n interface{}) string {
-	var n64Str string
-
-	reflectVal := reflect.ValueOf(n)
-	if reflectVal.Kind() == reflect.Ptr {
-		n64Str = fmt.Sprintf("%v", reflect.Indirect(reflectVal))
-	} else {
-		n64Str = fmt.Sprintf("%v", n)
-	}
-
-	return n64Str
-}
-
 func intishToBigInt(n interface{}) *big.Int {
-	x, err := strconv.ParseInt(makeFormatStr(n), 10, 64)
+	x, err := strconv.ParseInt(fmt.Sprintf("%v", n), 10, 64)
 	if err != nil {
 		panic(err)
 	}
@@ -44,15 +28,13 @@ func isUintish(n interface{}) bool {
 	switch n.(type) {
 	case uint, uint8, uint16, uint32, uint64:
 		return true
-	case *uint, *uint8, *uint16, *uint32, *uint64:
-		return true
 	default:
 		return false
 	}
 }
 
 func uintishToBigInt(n interface{}) *big.Int {
-	x, err := strconv.ParseUint(makeFormatStr(n), 10, 64)
+	x, err := strconv.ParseUint(fmt.Sprintf("%v", n), 10, 64)
 	if err != nil {
 		panic(err)
 	}
