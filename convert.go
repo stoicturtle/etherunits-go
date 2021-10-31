@@ -9,7 +9,7 @@ import (
 	"github.com/stoicturtle/etherunits-go/internal/utils"
 )
 
-// ToWei converts any one of (*)(u)int/8/16/32/64, (*)float32/64, *big.Int, *big.Float, or string
+// ToWei converts any one of (u)int/8/16/32/64, float32/64, *big.Int, *big.Float, or string
 // from its value in the denomination of fromUnit to its denominational value in Wei.
 func ToWei(value interface{}, fromUnit Unit) (*big.Int, error) {
 	if !unit.ValidUnit(fromUnit) {
@@ -34,7 +34,7 @@ func ToWei(value interface{}, fromUnit Unit) (*big.Int, error) {
 	return weiVal, nil
 }
 
-// ToEther converts any one of (*)(u)int/8/16/32/64, (*)float32/64, *big.Int, *big.Float, or string
+// ToEther converts any one of (u)int/8/16/32/64, float32/64, *big.Int, *big.Float, or string
 // from its value in the denomination of fromUnit to its denominational value in Ether.
 func ToEther(value interface{}, fromUnit Unit) (*big.Float, error) {
 	if !unit.ValidUnit(fromUnit) {
