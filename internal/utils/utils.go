@@ -1,9 +1,15 @@
 package utils
 
 import (
+	"fmt"
 	"math"
 	"math/big"
 )
+
+type ComparableBigNum interface {
+	fmt.Stringer
+	Cmp(*big.Int) int
+}
 
 var (
 	wei   = big.NewInt(1)

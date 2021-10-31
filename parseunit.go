@@ -47,7 +47,10 @@ func ParseUnitFromString(u string) (Unit, error) {
 // is returned along with an error.
 func ParseUnitFromBigInt(u *big.Int) (Unit, error) {
 	for _, u2 := range unit.Slice {
-		if utils.BigIntEq(u, u2.ValueWei()) {
+		if utils.BigIntEq(
+			u,
+			u2.ValueWei(),
+		) {
 			return u2, nil
 		}
 	}
